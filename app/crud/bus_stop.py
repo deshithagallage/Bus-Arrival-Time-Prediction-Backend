@@ -22,5 +22,10 @@ def get_bus_stop(stop_id: str):
 
 def delete_bus_stop(stop_id: str):
     stop_ref = db.collection("bus_stops").document(stop_id)
+    stop_doc = stop_ref.get()
+
+    if not stop_doc.exists:
+        return None
+    
     stop_ref.delete()
     return {"message": f"Bus stop {stop_id} deleted successfully."}
