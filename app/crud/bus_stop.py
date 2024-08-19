@@ -20,6 +20,19 @@ def get_bus_stop(stop_id: str):
     stop_data = stop_doc.to_dict()
     return BusStop(id=stop_id, **stop_data)
 
+def get_bus_stop_by_name(name: str):
+    stops_ref = db.collection("bus_stops")
+    query = stops_ref.where("name", "==", name).limit(1)
+    results = query.stream()
+
+    stop_doc = next(results, None)
+
+    if not stop_doc:
+        return None
+
+    stop_data = stop_doc.to_dict()
+    return BusStop(id=stop_doc.id, **stop_data)
+
 def delete_bus_stop(stop_id: str):
     stop_ref = db.collection("bus_stops").document(stop_id)
     stop_doc = stop_ref.get()

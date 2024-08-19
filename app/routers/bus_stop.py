@@ -1,6 +1,6 @@
 from fastapi import APIRouter, HTTPException
 from ..schemas.bus_stop import BusStopCreate, BusStop
-from ..crud.bus_stop import create_bus_stop, get_bus_stop, delete_bus_stop
+from ..crud.bus_stop import create_bus_stop, get_bus_stop, get_bus_stop_by_name, delete_bus_stop
 
 router = APIRouter()
 
@@ -12,6 +12,13 @@ def create_stop(stop: BusStopCreate):
 @router.get("/{stop_id}", response_model=BusStop)
 def read_stop(stop_id: str):
     stop_data = get_bus_stop(stop_id)
+    if not stop_data:
+        raise HTTPException(status_code=404, detail="Bus stop not found")
+    return stop_data
+
+@router.get("/by-name/{name}", response_model=BusStop)
+def read_stop_by_name(name: str):
+    stop_data = get_bus_stop_by_name(name)
     if not stop_data:
         raise HTTPException(status_code=404, detail="Bus stop not found")
     return stop_data
