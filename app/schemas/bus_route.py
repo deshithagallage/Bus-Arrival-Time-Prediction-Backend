@@ -5,8 +5,16 @@ from .bus_stop import BusStopCreate, BusStop
 class BusRoute(BaseModel):
     id: str
     name: str
+    direction: int
+    origin: BusStop
+    destination: BusStop
     stops: List[BusStop]
+    stops_count: int
 
 class BusRouteCreate(BaseModel):
     name: str
-    stops: List[BusStopCreate]
+    direction: int
+    origin: BusStop
+    destination: BusStop
+    stops: List[BusStop]
+    stops_count: int
