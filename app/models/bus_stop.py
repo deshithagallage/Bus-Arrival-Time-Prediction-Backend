@@ -1,7 +1,7 @@
 from typing import Optional
 
 class BusStop:
-    def __init__(self, name: str, longitude: float, latitude: float, id: Optional[str] = None):
+    def __init__(self, name: str, longitude: str, latitude: str, id: Optional[str] = None):
         self.id = id
         self.name = name
         self.longitude = longitude
