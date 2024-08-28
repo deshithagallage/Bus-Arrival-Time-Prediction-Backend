@@ -1,7 +1,8 @@
+import logging
 from fastapi import HTTPException
+from typing import Dict, List
 from ..core.firebase import firestore_db
 from ..schemas.bus_route import BusRouteCreate, BusRoute
-from ..schemas.bus_stop import BusStop
 from .bus_stop import get_bus_stop
 
 def create_bus_route(route: BusRouteCreate):
@@ -67,9 +68,9 @@ def get_bus_route(route_id: str) -> BusRoute:
         stops_count=route_data.get("stops_count")
     )
 
-def get_bus_route_by_name(name: str):
+def get_bus_route_by_name(name: str, direction: int) -> BusRoute:
     routes_ref = firestore_db.collection("bus_routes")
-    query = routes_ref.where(field_path="name", op_string="==", value=name).limit(1)
+    query = routes_ref.where(field_path="name", op_string="==", value=name).where(field_path="direction", op_string="==", value=direction).limit(1)
     results = query.stream()
 
     route_doc = next(results, None)
@@ -111,6 +112,27 @@ def get_bus_route_by_name(name: str):
         stops=stops,
         stops_count=route_data.get("stops_count")
     )
+
+def get_all_bus_route_names() -> Dict[str, List[str]]:
+    print("Fetching all bus route names...")
+    routes_ref = firestore_db.collection("bus_routes")
+    results = routes_ref.stream()
+
+    route_names = set()  # Use a set to store unique route names
+    for route in results:
+        name = route.to_dict().get("name")
+        if name:
+            route_names.add(name)  # Add to set (duplicates will be ignored)
+        else:
+            logging.warning(f"Route with ID {route.id} has no name.")
+
+    if not route_names:
+        logging.error("No bus routes found.")
+        raise HTTPException(status_code=404, detail="Bus routes not found")
+
+    unique_route_names = list(route_names)  # Convert set back to list
+    logging.info(f"Found bus route names: {unique_route_names}")
+    return {"route_names": unique_route_names}
 
 def delete_bus_route(route_id: str):
     route_ref = firestore_db.collection("bus_routes").document(route_id)
