@@ -5,7 +5,8 @@ from fastapi.middleware.cors import CORSMiddleware
 app = FastAPI()
 
 origins = [
-    "http://localhost:5173",  # Replace with your frontend URL
+    "http://localhost:5173",  # Frontend URL of the development server
+    "https://urbaneta.vercel.app",  # Frontend URL of the production server
     # Add other origins as needed
 ]
 
