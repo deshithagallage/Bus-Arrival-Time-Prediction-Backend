@@ -1,14 +1,16 @@
+import os
 from fastapi import FastAPI
 from app.routers import router
 from fastapi.middleware.cors import CORSMiddleware
+from dotenv import load_dotenv
+
+# Load environment variables from .env file
+load_dotenv()
 
 app = FastAPI()
 
-origins = [
-    "http://localhost:5173",  # Frontend URL of the development server
-    "https://urbaneta.vercel.app",  # Frontend URL of the production server
-    # Add other origins as needed
-]
+# Read the CORS origins from the .env file and split by comma
+origins = os.getenv('CORS_ORIGINS').split(',')
 
 app.add_middleware(
     CORSMiddleware,
