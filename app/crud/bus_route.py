@@ -114,7 +114,7 @@ def get_bus_route_by_name(name: str, direction: int) -> BusRoute:
     )
 
 def get_all_bus_route_names() -> Dict[str, List[str]]:
-    routes_ref = firestore_db.collection("bus_routes")
+    routes_ref = firestore_db.collection("bus_routes").limit(100)
     results = routes_ref.stream()
 
     route_names = set()  # Use a set to store unique route names
