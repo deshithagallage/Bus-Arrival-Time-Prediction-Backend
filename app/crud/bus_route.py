@@ -114,7 +114,6 @@ def get_bus_route_by_name(name: str, direction: int) -> BusRoute:
     )
 
 def get_all_bus_route_names() -> Dict[str, List[str]]:
-    print("Fetching all bus route names...")
     routes_ref = firestore_db.collection("bus_routes")
     results = routes_ref.stream()
 
