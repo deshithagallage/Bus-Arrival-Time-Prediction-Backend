@@ -21,3 +21,12 @@ app.add_middleware(
 )
 
 app.include_router(router)
+
+# Root endpoint to show that the backend is working
+@app.get("/")
+async def get_status():
+    return {
+        "status": "Backend is running smoothly",
+        "api_version": "1.0.0",
+        "message": "Welcome to the Bus Arrival Prediction API"
+    }
