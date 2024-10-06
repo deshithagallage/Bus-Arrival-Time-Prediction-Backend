@@ -9,14 +9,15 @@ load_dotenv()
 
 def predict_arrival_time(input: PredictionInput):
     # Define the FastAPI URL
-    url = os.getenv("MODEL_URL")
+    model_url = os.getenv("MODEL_URL")
+    prediction_url = f"{model_url}/predict"
 
     # Convert the input to a dictionary (as FastAPI expects a JSON body)
     input_data = input.dict()
 
     try:
         # Send a POST request to the FastAPI endpoint
-        response = requests.post(url, json=input_data)
+        response = requests.post(prediction_url, json=input_data)
 
         if response.status_code == 200:
             return response.json()
