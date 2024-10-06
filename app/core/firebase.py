@@ -4,10 +4,8 @@ from dotenv import load_dotenv
 import firebase_admin
 from firebase_admin import credentials, firestore, db, storage
 
-
 # Load environment variables from .env file
 load_dotenv()
-
 
 def init_firebase():
     # Get Firebase credentials from the environment variable

@@ -8,6 +8,6 @@ router = APIRouter()
 def predict_time_to_arrival(input: PredictionInput):
     try:
         prediction = predict_arrival_time(input)
-        return {"prediction": prediction}
+        return prediction
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
