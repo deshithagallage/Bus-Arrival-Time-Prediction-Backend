@@ -24,7 +24,7 @@ def read_route(route_id: str):
         raise HTTPException(status_code=404, detail="Bus route not found")
     return route_data
 
-@router.get("/by-name/{name}/{direction}", response_model=BusRoute)
+@router.get("/by-name/{name:path}/{direction}", response_model=BusRoute)
 def read_route_by_name(name: str, direction: int):
     route_data = get_bus_route_by_name(name, direction)
     if not route_data:
@@ -35,10 +35,3 @@ def read_route_by_name(name: str, direction: int):
 def remove_route(route_id: str):
     delete_message = delete_bus_route(route_id)
     return delete_message
-
-@router.get("/test")
-def test_endpoint():
-    print("Testing endpoint")
-    route_names = {"route_names": ["Route 1", "Route 2", "Route 3"]}
-    return route_names
-

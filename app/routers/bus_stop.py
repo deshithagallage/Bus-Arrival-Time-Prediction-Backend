@@ -16,7 +16,7 @@ def read_stop(stop_id: str):
         raise HTTPException(status_code=404, detail="Bus stop not found")
     return stop_data
 
-@router.get("/by-name/{name}", response_model=BusStop)
+@router.get("/by-name/{name:path}", response_model=BusStop)
 def read_stop_by_name(name: str):
     stop_data = get_bus_stop_by_name(name)
     if not stop_data:
